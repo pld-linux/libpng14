@@ -4,19 +4,22 @@ Summary(fr):	Librarie PNG
 Summary(pl):	Biblioteka PNG 
 Summary(tr):	PNG kitaplýðý
 Name:		libpng
-Version:	1.0.8
-Release:	6
+Version:	1.0.12
+Release:	2
 Epoch:		2
 License:	Distributable
 Group:		Libraries
 Group(de):	Libraries
+Group(es):	Bibliotecas
 Group(fr):	Librairies
 Group(pl):	Biblioteki
-Source0:	ftp://ftp.uu.net/graphics/png/src/%{name}-%{version}.tar.gz
+Source0:	ftp://swrinde.nde.swri.edu/pub/png/src/%{name}-%{version}.tar.gz
 Patch0:		%{name}-opt.patch
 Patch1:		%{name}-pngminus.patch
 Patch2:		%{name}-badchunks.patch
+URL:		http://www.libpng.org/pub/png/libpng.html
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+Obsoletes:	libpng2
 
 %description
 The PNG library is a collection of routines used to create and
@@ -55,6 +58,8 @@ Group(de):	Entwicklung/Libraries
 Group(fr):	Development/Librairies
 Group(pl):	Programowanie/Biblioteki
 Requires:	%{name} = %{version}
+Requires:	zlib-devel
+Obsoletes:	libpng2-devel
 
 %description devel
 The header files and static libraries are only needed for development
@@ -76,7 +81,7 @@ développement avec la librairie PNG.
 PNG kitaplýðýný kullanan programlar geliþtirmek için gereken
 kitaplýklar ve baþlýk dosyalarý.
 
-%package	static
+%package static
 Summary:	static libraries
 Summary(pl):	Biblioteki statyczne
 Group:		Development/Libraries
@@ -94,13 +99,16 @@ Biblioteki statyczne.
 %package progs
 Summary:	libpng utility programs
 Group:		Applications/Graphics
+Group(de):	Applikationen/Grafik
+Group(pl):	Aplikacje/Grafika
 
 %description progs
-This package contains utility programs to convert png files to and from 
-pnm files 
+This package contains utility programs to convert png files to and
+from pnm files.
 
 %description -l pl progs
-Narzêdzia do konwersji plików png z lub do plików pnm
+Narzêdzia do konwersji plików png z lub do plików pnm.
+
 %prep
 %setup -q
 %patch0 -p1
@@ -110,9 +118,10 @@ Narzêdzia do konwersji plików png z lub do plików pnm
 ln -s scripts/makefile.linux ./Makefile
 
 %build
-%{__make}  
+%{__make} OPT_FLAGS="%{rpmcflags}"
 cd contrib/pngminus
-%{__make} -f makefile.std
+%{__make} -f makefile.std \
+	OPT_FLAGS="%{rpmcflags} -I../../"
 
 %install
 rm -rf $RPM_BUILD_ROOT
