@@ -102,22 +102,22 @@ PNG kitaplığını kullanan programlar geliştirmek için gereken
 kitaplıklar ve başlık dosyaları.
 
 %package static
-Summary:	Static PNG libraries
-Summary(de.UTF-8):	Statischen PNG Libraries
-Summary(pl.UTF-8):	Biblioteki statyczne PNG
+Summary:	Static PNG library
+Summary(de.UTF-8):	Statisch PNG Library
+Summary(pl.UTF-8):	Biblioteka statyczna PNG
 Summary(pt_BR.UTF-8):	Bibliotecas estáticas para desenvolvimento com libpng
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{epoch}:%{version}-%{release}
 Provides:	libpng(APNG)-static = 0.10
 
 %description static
-Static PNG libraries.
+Static PNG library.
 
 %description static -l de.UTF-8
-Statischen PNG Libraries.
+Statisch PNG Library.
 
 %description static -l pl.UTF-8
-Biblioteki statyczne PNG.
+Biblioteka statyczna PNG.
 
 %description static -l pt_BR.UTF-8
 Bibliotecas estáticas para desenvolvimento com libpng.
