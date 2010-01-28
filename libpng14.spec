@@ -7,7 +7,7 @@ Summary(pt_BR.UTF-8):	Biblioteca PNG
 Summary(tr.UTF-8):	PNG kitaplığı
 Name:		libpng
 Version:	1.4.0
-Release:	0.1
+Release:	1
 Epoch:		2
 License:	distributable
 Group:		Libraries
