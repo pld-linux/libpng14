@@ -1,4 +1,3 @@
-# NOTE: try to switch to ac/am/lt build on 1.2.x->1.4.x upgrade
 Summary:	PNG library
 Summary(de.UTF-8):	PNG-Library
 Summary(es.UTF-8):	Biblioteca PNG
@@ -8,7 +7,7 @@ Summary(pt_BR.UTF-8):	Biblioteca PNG
 Summary(tr.UTF-8):	PNG kitaplığı
 Name:		libpng
 Version:	1.2.42
-Release:	1
+Release:	2
 Epoch:		2
 License:	distributable
 Group:		Libraries
@@ -155,22 +154,9 @@ xzcat -dc %{SOURCE0} | tar xf - -C ..
 %patch4 -p1
 %patch5 -p0
 
-%ifarch %{ix86}
-ln -sf scripts/makefile.gcmmx ./Makefile
-%else
-ln -sf scripts/makefile.linux ./Makefile
-%endif
-
 %build
-%{__make} \
-	prefix=%{_prefix} \
-	LIBPATH=%{_libdir} \
-	CC="%{__cc}" \
-%ifarch %{x8664} sparc sparcv9 sparc64
-	OPT_FLAGS="%{rpmcflags} -DPNG_NO_MMX_CODE"
-%else
-	OPT_FLAGS="%{rpmcflags}"
-%endif
+%configure
+%{__make}
 
 %{__make} -C contrib/pngminus -f makefile.std \
 	LIBPATH=%{_libdir} \
@@ -183,11 +169,9 @@ install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir},%{_mandir}/man{3,5}} \
 	$RPM_BUILD_ROOT{%{_pkgconfigdir},%{_examplesdir}/%{name}-%{version}}
 
 %{__make} install \
-	DESTDIR=$RPM_BUILD_ROOT \
-	prefix=%{_prefix} \
-	LIBPATH=%{_libdir} \
-	MANPATH=%{_mandir}
+	DESTDIR=$RPM_BUILD_ROOT
 
+ln -s libpng12 $RPM_BUILD_ROOT%{_includedir}/libpng
 install contrib/pngminus/{png2pnm,pnm2png} $RPM_BUILD_ROOT%{_bindir}
 install example.c $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
 
