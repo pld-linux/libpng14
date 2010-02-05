@@ -1,3 +1,4 @@
+%bcond_without	tests
 Summary:	PNG library
 Summary(de.UTF-8):	PNG-Library
 Summary(es.UTF-8):	Biblioteca PNG
@@ -150,7 +151,9 @@ xzcat -dc %{SOURCE0} | tar xf - -C ..
 %{__make} -C contrib/pngminus -f makefile.std \
 	LIBPATH=%{_libdir} \
 	CC="%{__cc}" \
-	OPT_FLAGS="%{rpmcflags}"
+	OPT_FLAGS="%{rpmcppflags} %{rpmcflags}"
+
+%{?with_tests:%{__make} check}
 
 %install
 rm -rf $RPM_BUILD_ROOT
