@@ -19,6 +19,7 @@ Patch0:		%{name}-pngminus.patch
 Patch1:		%{name}-apng.patch
 URL:		http://www.libpng.org/pub/png/libpng.html
 BuildRequires:	rpmbuild(macros) >= 1.213
+BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz >= 1:4.999.7
 BuildRequires:	zlib-devel
 Provides:	libpng(APNG) = 0.10
