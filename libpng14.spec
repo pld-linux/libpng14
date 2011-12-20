@@ -1,4 +1,8 @@
-%bcond_without	tests
+#
+# Conditional build:
+%bcond_without	tests		# don't perform "make check"
+%bcond_with	default_libpng	# use this libpng as default system libpng
+#
 Summary:	PNG library
 Summary(de.UTF-8):	PNG-Library
 Summary(es.UTF-8):	Biblioteca PNG
@@ -6,13 +10,12 @@ Summary(fr.UTF-8):	Librarie PNG
 Summary(pl.UTF-8):	Biblioteka PNG
 Summary(pt_BR.UTF-8):	Biblioteca PNG
 Summary(tr.UTF-8):	PNG kitaplığı
-Name:		libpng
+Name:		libpng14
 Version:	1.4.8
 Release:	1
-Epoch:		2
 License:	distributable
 Group:		Libraries
-Source0:	http://downloads.sourceforge.net/libpng/%{name}-%{version}.tar.xz
+Source0:	http://downloads.sourceforge.net/libpng/libpng-%{version}.tar.xz
 # Source0-md5:	2ce595d571f2b06a9403ed5bcfa4ecbd
 Patch0:		%{name}-pngminus.patch
 # http://littlesvr.ca/apng/diff/%{name}-%{version}-apng.patch | dos2unix
@@ -22,7 +25,7 @@ BuildRequires:	rpmbuild(macros) >= 1.213
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz >= 1:4.999.7
 BuildRequires:	zlib-devel
-Provides:	libpng(APNG) = 0.10
+Provides:	libpng14(APNG) = 0.10
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -70,10 +73,9 @@ Summary(pl.UTF-8):	Pliki nagłówkowe libpng
 Summary(pt_BR.UTF-8):	Arquivos de inclusão e bibliotecas estáticas
 Summary(tr.UTF-8):	başlık dosyaları ve statik kitaplıklar
 Group:		Development/Libraries
-Requires:	%{name} = %{epoch}:%{version}-%{release}
+Requires:	%{name} = %{version}-%{release}
 Requires:	zlib-devel
-Provides:	libpng(APNG)-devel = 0.10
-Conflicts:	libpng < 1.0.15
+Provides:	libpng14(APNG)-devel = 0.10
 
 %description devel
 The header files are only needed for development of programs using the
@@ -109,8 +111,8 @@ Summary(de.UTF-8):	Statisch PNG Library
 Summary(pl.UTF-8):	Biblioteka statyczna PNG
 Summary(pt_BR.UTF-8):	Bibliotecas estáticas para desenvolvimento com libpng
 Group:		Development/Libraries
-Requires:	%{name}-devel = %{epoch}:%{version}-%{release}
-Provides:	libpng(APNG)-static = 0.10
+Requires:	%{name}-devel = %{version}-%{release}
+Provides:	libpng14(APNG)-static = 0.10
 
 %description static
 Static PNG library.
@@ -128,7 +130,7 @@ Bibliotecas estáticas para desenvolvimento com libpng.
 Summary:	libpng utility programs
 Summary(pl.UTF-8):	Narzędzia do plików PNG
 Group:		Applications/Graphics
-Requires:	%{name} = %{epoch}:%{version}-%{release}
+Requires:	%{name} = %{version}-%{release}
 
 %description progs
 This package contains utility programs to convert PNG files to and
@@ -138,7 +140,7 @@ from PNM files.
 Narzędzia do konwersji plików PNG z lub do plików PNM.
 
 %prep
-%setup -q
+%setup -q -n libpng-%{version}
 %patch0 -p1
 %patch1 -p0
 
@@ -163,6 +165,14 @@ install -d $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
 install contrib/pngminus/{png2pnm,pnm2png} $RPM_BUILD_ROOT%{_bindir}
 install example.c $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
 
+%if %{without default_libpng}
+%{__rm} $RPM_BUILD_ROOT%{_bindir}/{libpng-config,pn?2pn?} \
+	$RPM_BUILD_ROOT%{_libdir}/libpng.{so,la,a} \
+	$RPM_BUILD_ROOT%{_includedir}/png*.h \
+	$RPM_BUILD_ROOT%{_pkgconfigdir}/libpng.pc \
+	$RPM_BUILD_ROOT%{_mandir}/man[35]/*png*
+%endif
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -179,26 +189,32 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc libpng-%{version}.txt
 %attr(755,root,root) %{_bindir}/libpng14-config
-%attr(755,root,root) %{_bindir}/libpng-config
 %attr(755,root,root) %{_libdir}/libpng14.so
-%attr(755,root,root) %{_libdir}/libpng.so
 %{_libdir}/libpng14.la
-%{_libdir}/libpng.la
-%{_pkgconfigdir}/libpng14.pc
-%{_pkgconfigdir}/libpng.pc
 %{_includedir}/libpng14
+%{_pkgconfigdir}/libpng14.pc
+%{_examplesdir}/%{name}-%{version}
+%if %{with default_libpng}
+%attr(755,root,root) %{_bindir}/libpng-config
+%attr(755,root,root) %{_libdir}/libpng.so
+%{_libdir}/libpng.la
+%{_pkgconfigdir}/libpng.pc
 %{_includedir}/png*.h
 %{_mandir}/man3/libpng.3*
 %{_mandir}/man3/libpngpf.3*
 %{_mandir}/man5/png.5*
-%{_examplesdir}/%{name}-%{version}
+%endif
 
 %files static
 %defattr(644,root,root,755)
 %{_libdir}/libpng14.a
+%if %{with default_libpng}
 %{_libdir}/libpng.a
+%endif
 
+%if %{with default_libpng}
 %files progs
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/png2pnm
 %attr(755,root,root) %{_bindir}/pnm2png
+%endif
