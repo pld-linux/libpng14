@@ -11,12 +11,12 @@ Summary(pl.UTF-8):	Biblioteka PNG
 Summary(pt_BR.UTF-8):	Biblioteca PNG
 Summary(tr.UTF-8):	PNG kitaplığı
 Name:		libpng14
-Version:	1.4.8
+Version:	1.4.9
 Release:	1
 License:	distributable
 Group:		Libraries
 Source0:	http://downloads.sourceforge.net/libpng/libpng-%{version}.tar.xz
-# Source0-md5:	2ce595d571f2b06a9403ed5bcfa4ecbd
+# Source0-md5:	3d6ca2f99f1f19dd746975e7fce6a45c
 Patch0:		%{name}-pngminus.patch
 # http://littlesvr.ca/apng/diff/%{name}-%{version}-apng.patch | dos2unix
 Patch1:		%{name}-apng.patch
