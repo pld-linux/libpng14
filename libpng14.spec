@@ -11,15 +11,15 @@ Summary(pl.UTF-8):	Biblioteka PNG
 Summary(pt_BR.UTF-8):	Biblioteca PNG
 Summary(tr.UTF-8):	PNG kitaplığı
 Name:		libpng14
-Version:	1.4.12
+Version:	1.4.13
 Release:	1
 License:	distributable
 Group:		Libraries
 Source0:	http://downloads.sourceforge.net/libpng/libpng-%{version}.tar.xz
-# Source0-md5:	74d60e9d76895b4300ce00ad86c126f4
+# Source0-md5:	095c6c024471887bd4f5bef0d280b99a
 Patch0:		%{name}-pngminus.patch
-# http://littlesvr.ca/apng/diff/%{name}-%{version}-apng.patch | dos2unix
-Patch1:		%{name}-apng.patch
+Patch1:		http://downloads.sourceforge.net/libpng-apng/libpng-%{version}-apng.patch.gz
+# Patch1-md5:	f29c8bc317f46944342b277d84a9089d
 URL:		http://www.libpng.org/pub/png/libpng.html
 BuildRequires:	rpmbuild(macros) >= 1.213
 BuildRequires:	tar >= 1:1.22
@@ -142,7 +142,7 @@ Narzędzia do konwersji plików PNG z lub do plików PNM.
 %prep
 %setup -q -n libpng-%{version}
 %patch0 -p1
-%patch1 -p0
+%patch1 -p1
 
 %build
 %configure
