@@ -11,15 +11,15 @@ Summary(pl.UTF-8):	Biblioteka PNG
 Summary(pt_BR.UTF-8):	Biblioteca PNG
 Summary(tr.UTF-8):	PNG kitaplığı
 Name:		libpng14
-Version:	1.4.20
+Version:	1.4.22
 Release:	1
 License:	distributable
 Group:		Libraries
 Source0:	http://downloads.sourceforge.net/libpng/libpng-%{version}.tar.xz
-# Source0-md5:	68818a9cfad48f5c4697328f944f0309
+# Source0-md5:	ce716e09b0ac345f7013023bf7196d8f
 Patch0:		%{name}-pngminus.patch
 Patch1:		http://downloads.sourceforge.net/libpng-apng/libpng-%{version}-apng.patch.gz
-# Patch1-md5:	20ab47e795d4466602cfee38d194106a
+# Patch1-md5:	d4320433418bce7d595765e9828d453f
 URL:		http://www.libpng.org/pub/png/libpng.html
 BuildRequires:	rpmbuild(macros) >= 1.213
 BuildRequires:	tar >= 1:1.22
